@@ -1,0 +1,25 @@
+{
+  "name": "IconHanabi",
+  "version": "0.0.0",
+  "description": "icon hanabi",
+  "main": "Gruntfile.js",
+  "dependencies": {
+    "grunt": "~0.4.1",
+    "grunt-auto-deps": "~0.0.3",
+    "grunt-contrib-compass": "~0.3.0",
+    "grunt-contrib-watch": "~0.1.4",
+    "grunt-koko": "~0.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nobii/IconHanabi.git"
+  },
+  "author": "Fujisawa Shin",
+  "license": "BSD",
+  "gitHead": "d237eb2747a9aa5f37fab42a3303e600bdd55261",
+  "readmeFilename": "README.md"
+}

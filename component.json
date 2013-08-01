@@ -1,0 +1,13 @@
+{
+  "name": "IconHanabi",
+  "version": "0.0.0",
+  "main": "js/IconHanabi.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "devDependencies": {
+    "jquery": "~2.0.3"
+  }
+}
