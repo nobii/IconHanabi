@@ -1,6 +1,6 @@
 $(function () {
     var img = new Image();
-    img.src = '/img/sample.png';
+    img.src = 'img/sample.png';
 
     $(document.body).on('click', function (e) {
         new IconHanabi({
