@@ -9,9 +9,9 @@ $(function () {
 
             x: e.pageX,
             y: e.pageY,
-            // size: 500,
-            minSize: 400,
-            maxSize: 600,
+            // size: 300,
+            minSize: 200,
+            maxSize: 400,
 
             // lineColor: 'rgba(255, 255, 0, 0.5),'
 
@@ -28,15 +28,20 @@ $(function () {
                 offsetTime: 0,
                 count: 1,
                 scale: 0,
-                iconScale: 0.5
+                iconScale: 0.8
             }, {
                 offsetTime: 50,
-                count: 10,
-                scale: 0.5,
-                iconScale: 0.5
+                count: 28,
+                scale: 0.3,
+                iconScale: 0.8
+            }, {
+                offsetTime: 50,
+                count: 28,
+                scale: 0.6,
+                iconScale: 0.8
             }, {
                 offsetTime: 100,
-                count: 10,
+                count: 28,
                 scale: 1,
                 iconScale: 1
             }]
