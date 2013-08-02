@@ -13,6 +13,9 @@ var IconHanabi = function (opts) {
         : 500
     );
 
+    this.className = opts.className || null;
+    this.id = opts.id || null;
+
     this.clock = 20;
     this.time = 0;
 
@@ -34,6 +37,13 @@ IconHanabi.prototype.initCanvas = function () {
     canvas.style.position = 'fixed';
     canvas.style.left = (x - size / 2) + 'px';
     canvas.style.top = (y - size / 2) + 'px';
+
+    if (this.id) {
+        canvas.id = this.id;
+    }
+    if (this.className) {
+        canvas.className = this.className;
+    }
 
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');

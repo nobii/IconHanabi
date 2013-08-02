@@ -5,10 +5,14 @@ $(function () {
     $(document.body).on('click', function (e) {
         new IconHanabi({
             icon: img,
+
             x: e.pageX,
             y: e.pageY,
             minSize: 200,
-            maxSize: 600
+            maxSize: 600,
+
+            id: 'icon-hanabi-' + (new Date().getTime()),
+            className: 'icon-hanabi'
         });
     });
 });
