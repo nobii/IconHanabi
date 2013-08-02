@@ -1,10 +1,13 @@
 var IconHanabi = function (opts) {
     this.icon = opts.icon || new Image();
 
-    this.x = opts.x || window.innerWidth / 2;
-    this.y = opts.y || window.innerHeight / 2;
-    this.size = opts.size ||
-    (
+    // init metrix
+    var innerWidth = window.innerWidth,
+        innerHeight = window.innerHeight;
+
+    this.x = opts.x || innerWidth * Math.random();
+    this.y = opts.y || innerHeight * Math.random();
+    this.size = opts.size || (
         (opts.minSize && opts.maxSize)
         ? opts.minSize + (opts.maxSize - opts.minSize) * Math.random()
         : 500
@@ -28,7 +31,7 @@ IconHanabi.prototype.initCanvas = function () {
     canvas.width = size;
     canvas.height = size;
 
-    canvas.style.position = 'absolute';
+    canvas.style.position = 'fixed';
     canvas.style.left = (x - size / 2) + 'px';
     canvas.style.top = (y - size / 2) + 'px';
 
