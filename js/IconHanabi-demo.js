@@ -5,10 +5,12 @@ $(function () {
     $(document.body).on('click', function (e) {
         new IconHanabi({
             icon: img,
+            // iconSize: 80,
 
             x: e.pageX,
             y: e.pageY,
-            minSize: 200,
+            // size: 500,
+            minSize: 400,
             maxSize: 600,
 
             id: 'icon-hanabi-' + (new Date().getTime()),

@@ -12,9 +12,13 @@ var IconHanabi = function (opts) {
         ? opts.minSize + (opts.maxSize - opts.minSize) * Math.random()
         : 500
     );
+    this.iconSize = opts.iconSize || this.icon.width;
 
     this.className = opts.className || null;
     this.id = opts.id || null;
+
+    this.lineColor = opts.lineColor || 'rgba(255, 255, 0, 0.5)';
+
 
     this.clock = 20;
     this.time = 0;
@@ -96,13 +100,14 @@ IconHanabi.prototype.draw = function () {
 IconHanabi.prototype.drawTail = function (time) {
     var ctx = this.ctx,
         size = this.size,
-        iconWidth = this.iconWidth,
+        iconSize = this.iconSize,
+        lineColor = this.lineColor,
 
         duration = 200,
         rate = time / duration,
-        lineWidth = iconWidth * 0.5;
+        lineWidth = iconSize * 0.1;
 
-    ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)';
+    ctx.strokeStyle = lineColor;
     ctx.lineWidth = lineWidth;
 
     ctx.beginPath();
@@ -117,13 +122,12 @@ IconHanabi.prototype.positIcons = function (time) {
         icon = this.icon,
         size = this.size,
         angles = this.angles,
+        iconSize = this.iconSize,
 
         duration = 800,
         attackTime = 200,
         offset = 50,
         opacity = Math.min((duration - time) / (duration - attackTime - offset), 1),
-        iconWidth = icon.width,
-        iconHeight = icon.height,
 
         rate = Math.min(time, attackTime) / attackTime,
         rate2 = Math.max(0, Math.min(time - offset, attackTime) / attackTime);
@@ -133,7 +137,7 @@ IconHanabi.prototype.positIcons = function (time) {
     this.putIcon(0, 0, rate);
 
     for (var i = 0; i < angles.length; i++) {
-        this.putIcon(rate2 * (size / 2 - iconWidth), angles[i], rate2);
+        this.putIcon(rate2 * (size / 2 - iconSize), angles[i], rate2);
     }
 };
 
@@ -141,14 +145,13 @@ IconHanabi.prototype.putIcon = function (distance, angle, rate) {
     var ctx = this.ctx,
         icon = this.icon,
         size = this.size,
-        iconWidth = icon.width,
-        iconHeight = icon.height;
+        iconSize = this.iconSize;
 
     ctx.drawImage(
         icon,
-        (size - iconWidth  * rate) / 2 + Math.cos(angle) * distance,
-        (size - iconHeight * rate) / 2 + Math.sin(angle) * distance,
-        iconWidth * rate,
-        iconHeight * rate
+        (size - iconSize * rate) / 2 + Math.cos(angle) * distance,
+        (size - iconSize * rate) / 2 + Math.sin(angle) * distance,
+        iconSize * rate,
+        iconSize * rate
     );
 };
