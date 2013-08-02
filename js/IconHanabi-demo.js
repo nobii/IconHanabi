@@ -16,7 +16,30 @@ $(function () {
             // lineColor: 'rgba(255, 255, 0, 0.5),'
 
             id: 'icon-hanabi-' + (new Date().getTime()),
-            className: 'icon-hanabi'
+            className: 'icon-hanabi',
+
+            // clock: 20,
+
+            tailTime: 200,
+            attackTime: 200,
+            releaseTime: 300,
+
+            rings: [{
+                offsetTime: 0,
+                count: 1,
+                scale: 0,
+                iconScale: 0.5
+            }, {
+                offsetTime: 50,
+                count: 10,
+                scale: 0.5,
+                iconScale: 0.5
+            }, {
+                offsetTime: 100,
+                count: 10,
+                scale: 1,
+                iconScale: 1
+            }]
         });
     });
 });

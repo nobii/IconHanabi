@@ -19,9 +19,23 @@ var IconHanabi = function (opts) {
 
     this.lineColor = opts.lineColor || 'rgba(255, 255, 0, 0.5)';
 
+    this.tailTime = opts.tailTime || 0;
+    this.attackTime = opts.attackTime || 0;
+    this.releaseTime = opts.releaseTime || 0;
 
-    this.clock = 20;
+
+    this.clock = opts.clock || 20;
     this.time = 0;
+
+    this.rings = opts.rings || [{
+        offsetTime: 0,
+        count: 1,
+        size: 0
+    }, {
+        offsetTime: 50,
+        count: 10,
+        size: 1
+    }];
 
     this.initCanvas();
     this.initAngles();
@@ -76,22 +90,32 @@ IconHanabi.prototype.clear = function () {
 };
 
 IconHanabi.prototype.initAngles = function () {
-    var angles = [],
-        count = 10;
+    var maxOffset = 0;
 
-    for (var i = 0; i < count; i++) {
-        angles.push(Math.PI * 2 * ((i + Math.random()) / count));
-    }
-    this.angles = angles;
+    this.rings.forEach(function (ring) {
+        var angles = [],
+            count = ring.count,
+            noise = 0;
+
+        for (var i = 0; i < count; i++) {
+            noise = (ring.noise || 0) * Math.random();
+            angles.push(Math.PI * 2 * ((i + noise) / count));
+        }
+        ring.angles = angles;
+
+        maxOffset = Math.max(ring.offsetTime, maxOffset);
+    });
+
+    this.maxOffset = maxOffset;
 };
 
 IconHanabi.prototype.draw = function () {
     var time = this.time;
 
-    if (time < 200) {
+    if (time < this.tailTime) {
         this.drawTail(time);
-    } else if (time < 1000) {
-        this.positIcons(time - 200);
+    } else if (time < this.tailTime + this.attackTime + this.maxOffset + this.releaseTime) {
+        this.positIcons(time - this.tailTime);
     } else {
         this.stop();
     }
@@ -103,8 +127,8 @@ IconHanabi.prototype.drawTail = function (time) {
         iconSize = this.iconSize,
         lineColor = this.lineColor,
 
-        duration = 200,
-        rate = time / duration,
+        tailTime = this.tailTime,
+        rate = time / tailTime,
         lineWidth = iconSize * 0.1;
 
     ctx.strokeStyle = lineColor;
@@ -117,41 +141,42 @@ IconHanabi.prototype.drawTail = function (time) {
 };
 
 IconHanabi.prototype.positIcons = function (time) {
-    var canvas = this.canvas,
+    var self = this,
+        canvas = this.canvas,
         ctx = this.ctx,
         icon = this.icon,
         size = this.size,
         angles = this.angles,
         iconSize = this.iconSize,
 
-        duration = 800,
-        attackTime = 200,
-        offset = 50,
-        opacity = Math.min((duration - time) / (duration - attackTime - offset), 1),
-
-        rate = Math.min(time, attackTime) / attackTime,
-        rate2 = Math.max(0, Math.min(time - offset, attackTime) / attackTime);
+        releaseTime = this.releaseTime,
+        attackTime = this.attackTime + this.maxOffset,
+        opacity = (time <= attackTime) ? 1 : (1 - (time - attackTime) / releaseTime);
 
     ctx.globalAlpha = opacity;
 
-    this.putIcon(0, 0, rate);
+    this.rings.forEach(function (ring) {
+        var rate = Math.max(0, Math.min(time - ring.offsetTime, attackTime) / attackTime),
+            distance = ring.scale * rate * (size / 2 - iconSize);
 
-    for (var i = 0; i < angles.length; i++) {
-        this.putIcon(rate2 * (size / 2 - iconSize), angles[i], rate2);
-    }
+        for (var i = 0; i < ring.angles.length; i++) {
+            self.putIcon(rate, distance, ring.angles[i], ring.iconScale);
+        }
+    });
 };
 
-IconHanabi.prototype.putIcon = function (distance, angle, rate) {
+IconHanabi.prototype.putIcon = function (rate, distance, angle, iconScale) {
     var ctx = this.ctx,
         icon = this.icon,
         size = this.size,
-        iconSize = this.iconSize;
+        iconSize = this.iconSize,
+        vsize = iconSize * rate * iconScale;
 
     ctx.drawImage(
         icon,
-        (size - iconSize * rate) / 2 + Math.cos(angle) * distance,
-        (size - iconSize * rate) / 2 + Math.sin(angle) * distance,
-        iconSize * rate,
-        iconSize * rate
+        (size - vsize) / 2 + Math.cos(angle) * distance,
+        (size - vsize) / 2 + Math.sin(angle) * distance,
+        vsize,
+        vsize
     );
 };
