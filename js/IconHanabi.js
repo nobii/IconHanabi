@@ -3,7 +3,12 @@ var IconHanabi = function (opts) {
 
     this.x = opts.x || window.innerWidth / 2;
     this.y = opts.y || window.innerHeight / 2;
-    this.size = opts.size || 500;
+    this.size = opts.size ||
+    (
+        (opts.minSize && opts.maxSize)
+        ? opts.minSize + (opts.maxSize - opts.minSize) * Math.random()
+        : 500
+    );
 
     this.clock = 20;
     this.time = 0;

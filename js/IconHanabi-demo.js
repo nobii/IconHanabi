@@ -7,7 +7,8 @@ $(function () {
             icon: img,
             x: e.pageX,
             y: e.pageY,
-            size: 600
+            minSize: 200,
+            maxSize: 600
         });
     });
 });
