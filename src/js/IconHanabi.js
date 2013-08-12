@@ -140,19 +140,21 @@ IconHanabi.prototype.drawTail = function (time) {
         rate = time / tailTime,
         lineWidth = iconSize * 0.1,
 
+        powRate = Math.pow(rate, 2),
+
         from = size,
-        to = Math.min(size / 2, size - rate * size);
+        to = size - rate * size / 2;
 
     ctx.strokeStyle = lineColor;
     ctx.lineWidth = lineWidth;
-    ctx.globalAlpha = (1 - rate);
+    ctx.globalAlpha = (1 - powRate);
 
     ctx.beginPath();
     ctx.moveTo(size / 2, from);
     ctx.lineTo(size / 2, to);
     ctx.stroke();
 
-    this.yOffset = this.lineLength * (1 - rate);
+    this.yOffset = this.lineLength * (1 - powRate);
 };
 
 IconHanabi.prototype.positIcons = function (time) {
