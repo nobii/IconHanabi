@@ -17,7 +17,11 @@ var IconHanabi = function (opts) {
     this.className = opts.className || null;
     this.id = opts.id || null;
 
-    this.lineColor = opts.lineColor || 'rgba(255, 255, 0, 0.5)';
+    this.lineColor = opts.lineColor || 'rgba(255, 255, 255, 0.5)';
+    this.lineLength = opts.lineLength || 500;
+
+    this.xOffset = 0;
+    this.yOffset = this.lineLength;
 
     this.tailTime = opts.tailTime || 0;
     this.attackTime = opts.attackTime || 0;
@@ -46,15 +50,17 @@ var IconHanabi = function (opts) {
 IconHanabi.prototype.initCanvas = function () {
     var size = this.size,
         x = this.x,
-        y = this.y;
+        y = this.y,
+        xOffset = this.xOffset,
+        yOffset = this.yOffset;
 
     var canvas = document.createElement('canvas');
     canvas.width = size;
     canvas.height = size;
 
     canvas.style.position = 'fixed';
-    canvas.style.left = (x - size / 2) + 'px';
-    canvas.style.top = (y - size / 2) + 'px';
+    canvas.style.left = (x + xOffset - size / 2) + 'px';
+    canvas.style.top =  (y + yOffset - size / 2) + 'px';
 
     if (this.id) {
         canvas.id = this.id;
@@ -87,6 +93,9 @@ IconHanabi.prototype.stop = function () {
 
 IconHanabi.prototype.clear = function () {
     this.canvas.width = this.size;
+    if (this.yOffset) {
+        this.canvas.style.top =  (this.y + this.yOffset - this.size / 2) + 'px';
+    }
 };
 
 IconHanabi.prototype.initAngles = function () {
@@ -138,6 +147,8 @@ IconHanabi.prototype.drawTail = function (time) {
     ctx.moveTo(size / 2, size);
     ctx.lineTo(size / 2, size - rate * size / 2);
     ctx.stroke();
+
+    this.yOffset = this.lineLength * (1 - rate);
 };
 
 IconHanabi.prototype.positIcons = function (time) {

@@ -8,14 +8,14 @@ $(function () {
 
         // size: 300,
 
-        // lineColor: 'rgba(255, 255, 0, 0.5),'
+        lineColor: 'rgba(255, 255, 0, 0.5)',
 
         id: 'icon-hanabi-' + (new Date().getTime()),
         className: 'icon-hanabi',
 
         // clock: 20,
 
-        tailTime: 200,
+        tailTime: 700,
         attackTime: 200,
         releaseTime: 300
     };
