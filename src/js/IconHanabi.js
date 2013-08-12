@@ -138,15 +138,18 @@ IconHanabi.prototype.drawTail = function (time) {
 
         tailTime = this.tailTime,
         rate = time / tailTime,
-        lineWidth = iconSize * 0.1;
+        lineWidth = iconSize * 0.1,
+
+        from = size,
+        to = Math.min(size / 2, size - rate * size);
 
     ctx.strokeStyle = lineColor;
     ctx.lineWidth = lineWidth;
     ctx.globalAlpha = (1 - rate);
 
     ctx.beginPath();
-    ctx.moveTo(size / 2, size);
-    ctx.lineTo(size / 2, size - rate * size);
+    ctx.moveTo(size / 2, from);
+    ctx.lineTo(size / 2, to);
     ctx.stroke();
 
     this.yOffset = this.lineLength * (1 - rate);
