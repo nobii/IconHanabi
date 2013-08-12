@@ -142,10 +142,11 @@ IconHanabi.prototype.drawTail = function (time) {
 
     ctx.strokeStyle = lineColor;
     ctx.lineWidth = lineWidth;
+    ctx.globalAlpha = (1 - rate);
 
     ctx.beginPath();
     ctx.moveTo(size / 2, size);
-    ctx.lineTo(size / 2, size - rate * size / 2);
+    ctx.lineTo(size / 2, size - rate * size);
     ctx.stroke();
 
     this.yOffset = this.lineLength * (1 - rate);
