@@ -59,13 +59,6 @@ module.exports = function (grunt) {
         build.push('compass:dev');
     }
 
-
-    // ejs
-
-
-    // test
-
-
     // server
     {
         grunt.loadNpmTasks('grunt-koko');
@@ -77,6 +70,17 @@ module.exports = function (grunt) {
         };
 
         grunt.registerTask('server', ['koko:dev']);
+    }
+
+    // release
+    {
+        grunt.loadNpmTasks('grunt-release');
+        config.release = {
+            options: {
+                file: 'component.json',
+                npm: false
+            }
+        };
     }
 
 
