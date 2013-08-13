@@ -187,7 +187,9 @@ IconHanabi.prototype.putIcon = function (rate, distance, angle, iconScale) {
         icon = this.icon,
         size = this.size,
         iconSize = this.iconSize,
-        vsize = iconSize * rate * iconScale;
+
+        scale = size / 500,
+        vsize = iconSize * rate * iconScale * scale;
 
     ctx.drawImage(
         icon,
