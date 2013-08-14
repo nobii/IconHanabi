@@ -16,8 +16,8 @@ $(function () {
         // clock: 20,
 
         tailTime: 700,
-        attackTime: 200,
-        releaseTime: 300
+        attackTime: 400,
+        releaseTime: 1200
     };
 
     $(document.body).on('click', function (e) {

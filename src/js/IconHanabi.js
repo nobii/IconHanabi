@@ -172,9 +172,16 @@ IconHanabi.prototype.positIcons = function (time) {
 
     ctx.globalAlpha = opacity;
 
+    this.yOffset = size * 0.1 * (
+        time / (attackTime + releaseTime)
+    );
+
     this.rings.forEach(function (ring) {
         var rate = Math.max(0, Math.min(time - ring.offsetTime, attackTime) / attackTime),
-            distance = ring.scale * rate * (size / 2 - iconSize);
+            distanceRate = Math.pow(time / (attackTime + releaseTime), 0.5);
+
+        distanceRate = Math.max(0, Math.min(1, distanceRate));
+        var distance = ring.scale * distanceRate * (size / 2 - iconSize);
 
         for (var i = 0; i < ring.angles.length; i++) {
             self.putIcon(rate, distance, ring.angles[i], ring.iconScale);
