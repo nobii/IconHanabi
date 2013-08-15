@@ -20,12 +20,16 @@ var IconHanabi = function (opts) {
     this.lineColor = opts.lineColor || 'rgba(255, 255, 255, 0.5)';
     this.lineLength = opts.lineLength || 500;
 
+    this.axisOffset = opts.axisOffset || Math.PI * 2 * Math.random();
+
     this.xOffset = 0;
     this.yOffset = this.lineLength;
 
     this.tailTime = opts.tailTime || 0;
     this.attackTime = opts.attackTime || 0;
     this.releaseTime = opts.releaseTime || 0;
+
+    this.done = opts.done || function () {};
 
 
     this.clock = opts.clock || 20;
@@ -89,6 +93,7 @@ IconHanabi.prototype.start = function () {
 IconHanabi.prototype.stop = function () {
     clearInterval(this.loop);
     document.body.removeChild(this.canvas);
+    this.done();
 };
 
 IconHanabi.prototype.clear = function () {
@@ -168,11 +173,13 @@ IconHanabi.prototype.positIcons = function (time) {
 
         releaseTime = this.releaseTime,
         attackTime = this.attackTime + this.maxOffset,
-        opacity = (time <= attackTime) ? 1 : (1 - (time - attackTime) / releaseTime);
+        opacity = (time <= attackTime) ? 1 : (1 - (time - attackTime) / releaseTime),
+
+        axisOffset = this.axisOffset;
 
     ctx.globalAlpha = opacity;
 
-    this.yOffset = size * 0.1 * (
+    this.yOffset = size * 0.2 * (
         time / (attackTime + releaseTime)
     );
 
@@ -184,7 +191,7 @@ IconHanabi.prototype.positIcons = function (time) {
         var distance = ring.scale * distanceRate * (size / 2 - iconSize);
 
         for (var i = 0; i < ring.angles.length; i++) {
-            self.putIcon(rate, distance, ring.angles[i], ring.iconScale);
+            self.putIcon(distanceRate, distance, ring.angles[i] + axisOffset, ring.iconScale);
         }
     });
 };
