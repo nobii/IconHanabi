@@ -21,6 +21,7 @@ var IconHanabi = function (opts) {
     this.lineLength = opts.lineLength || 500;
 
     this.axisOffset = opts.axisOffset || Math.PI * 2 * Math.random();
+    this.fallingScale = opts.fallingScale || 0.1;
 
     this.xOffset = 0;
     this.yOffset = this.lineLength;
@@ -170,33 +171,43 @@ IconHanabi.prototype.positIcons = function (time) {
         size = this.size,
         angles = this.angles,
         iconSize = this.iconSize,
+        fallingScale = this.fallingScale,
 
         releaseTime = this.releaseTime,
         attackTime = this.attackTime + this.maxOffset,
         opacity = (time <= attackTime) ? 1 : (1 - (time - attackTime) / releaseTime),
 
-        axisOffset = this.axisOffset;
+        axisOffset = this.axisOffset,
+        distanceRate = Math.pow(time / (attackTime + releaseTime), 0.5),
+
+        rings = this.rings;
+
+    distanceRate = Math.max(0, Math.min(1, distanceRate));
 
     ctx.globalAlpha = opacity;
 
-    this.yOffset = size * 0.2 * (
-        time / (attackTime + releaseTime)
-    );
-
-    this.rings.forEach(function (ring) {
+    rings.forEach(function (ring, index) {
         var rate = Math.max(0, Math.min(time - ring.offsetTime, attackTime) / attackTime),
-            distanceRate = Math.pow(time / (attackTime + releaseTime), 0.5);
+            distance = ring.scale * distanceRate * (size / 2 - iconSize),
+            angles = ring.angles;
 
-        distanceRate = Math.max(0, Math.min(1, distanceRate));
-        var distance = ring.scale * distanceRate * (size / 2 - iconSize);
-
-        for (var i = 0; i < ring.angles.length; i++) {
-            self.putIcon(distanceRate, distance, ring.angles[i] + axisOffset, ring.iconScale);
+        for (var i = 0; i < angles.length; i++) {
+            self.putIcon(
+                distanceRate,
+                distance,
+                angles[i] + axisOffset,
+                ring.iconScale,
+                -self.yOffset * (1 - index / rings.length)
+            );
         }
     });
+
+    this.yOffset = size * fallingScale * (
+        time / (attackTime + releaseTime)
+    );
 };
 
-IconHanabi.prototype.putIcon = function (rate, distance, angle, iconScale) {
+IconHanabi.prototype.putIcon = function (rate, distance, angle, iconScale, fall) {
     var ctx = this.ctx,
         icon = this.icon,
         size = this.size,
@@ -208,7 +219,7 @@ IconHanabi.prototype.putIcon = function (rate, distance, angle, iconScale) {
     ctx.drawImage(
         icon,
         (size - vsize) / 2 + Math.cos(angle) * distance,
-        (size - vsize) / 2 + Math.sin(angle) * distance,
+        (size - vsize) / 2 + Math.sin(angle) * distance + fall,
         vsize,
         vsize
     );
