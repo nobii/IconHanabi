@@ -197,7 +197,7 @@ IconHanabi.prototype.positIcons = function (time) {
                 distance,
                 angles[i] + axisOffset,
                 ring.iconScale,
-                -self.yOffset * (1 - index / rings.length)
+                self.yOffset * (ring.scale * ring.scale)
             );
         }
     });
