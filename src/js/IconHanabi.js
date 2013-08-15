@@ -197,7 +197,7 @@ IconHanabi.prototype.positIcons = function (time) {
                 distance,
                 angles[i] + axisOffset,
                 ring.iconScale,
-                self.yOffset * (ring.scale * ring.scale)
+                ring.scale * ring.scale
             );
         }
     });
@@ -219,7 +219,7 @@ IconHanabi.prototype.putIcon = function (rate, distance, angle, iconScale, fall)
     ctx.drawImage(
         icon,
         (size - vsize) / 2 + Math.cos(angle) * distance,
-        (size - vsize) / 2 + Math.sin(angle) * distance + fall,
+        (size - vsize) / 2 + Math.sin(angle) * distance + (this.yOffset * (fall - 1)),
         vsize,
         vsize
     );
